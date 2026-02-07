@@ -75,7 +75,71 @@ if (typeof VConsole !== 'undefined') {
       document.body.appendChild(domScript);
     }
 
+    // 初始化游戏数据
+    function initGameData() {
+      try {
+        // 生成所有武器的解锁状态（40个武器系列 × 2种颜色 = 80种）
+        var weaponsUnLock = {};
+        var weaponSeries = ['allBlue', 'allRed', 'allGreen', 'allYellow', 'allPurple', 'allOrange', 'allPink', 'allBlack'];
+        
+        // 为每个系列生成40个武器，全部解锁
+        weaponSeries.forEach(function(series) {
+          for (var i = 0; i < 40; i++) {
+            weaponsUnLock[series + '_' + i] = true;
+          }
+        });
+        
+        // 生成所有皮肤的解锁状态（40个皮肤）
+        var skinsUnLock = {};
+        for (var j = 0; j < 40; j++) {
+          skinsUnLock['Skin_' + j] = true;
+        }
+        
+        // 核心游戏数据
+        var gameData = {
+          gold: 1145141919810,           // 金币
+          keys: 31415926,              // 钥匙
+          reward: 2,               // 奖励
+          newIconWeapons: false,   // 新武器提示
+          weapons1: 'allBlue_0',   // 玩家1当前武器
+          weapons2: null,          // 玩家2当前武器
+          Allcolor1: {_val: 4293440008},  // 颜色1
+          Allcolor2: {_val: 4278230271},  // 颜色2
+          arenaNum: 0,             // 竞技场编号
+          audioNumber: 0.5,        // 音量
+          effectNumber: 0.5,       // 音效
+          enemyName: '',           // 敌人名称
+          isPass2PlayersTutorial: true,   // 2P教程完成
+          isPassArenaTutorial: false,     // 竞技场教程
+          isPassShopTutorial: true,       // 商店教程
+          isPassTutorial: true,           // 基础教程
+          lastCheckInTime: 0,      // 最后签到时间
+          level: 9177,               // 玩家等级
+          map: 0,                  // 地图
+          openedWeapons: 80,       // 已开启武器数
+          player1Count: 0,         // 玩家1计数
+          player2Count: 0,         // 玩家2计数
+          playerJoy1: 1,           // 玩家1手柔和度
+          playerName: null,        // 玩家名称
+          playerState1: 2,         // 玩家1状态
+          playerState2: 2,         // 玩家2状态
+          rating: 999,             // 评分
+          skins1: 'Skin_0',        // 玩家1当前皮肤
+          skins2: null,            // 玩家2当前皮肤
+          skinsUnLock: skinsUnLock,      // 皮肤解锁状态
+          weaponsUnLock: weaponsUnLock   // 武器解锁状态
+        };
+        
+        localStorage.setItem('p27', JSON.stringify(gameData));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
     loadScript(debug ? 'cocos2d-js.js' : 'cocos2d-js-min.9eb31.js', function () {
+      // 初始化游戏数据
+      initGameData();
+      
       if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
         loadScript(debug ? 'physics.js' : 'physics-min.js', window.boot);
       }
