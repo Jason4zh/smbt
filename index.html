@@ -149,5 +149,52 @@ if (typeof VConsole !== 'undefined') {
     });
 })();
 </script>
+
+<style>
+  #fullscreen-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 15px 20px;
+    font-size: 16px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: opacity 0.5s;
+  }
+
+  #fullscreen-btn.hidden {
+    opacity: 0;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const fullscreenBtn = document.createElement('button');
+    fullscreenBtn.id = 'fullscreen-btn';
+    fullscreenBtn.textContent = '点击进入全屏模式';
+
+    document.body.appendChild(fullscreenBtn);
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        fullscreenBtn.textContent = '点击退出全屏模式';
+      } else {
+        document.exitFullscreen();
+        fullscreenBtn.textContent = '点击进入全屏模式';
+      }
+    }
+
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    setTimeout(() => {
+      fullscreenBtn.classList.add('hidden');
+    }, 10000);
+  });
+</script>
 </body>
 </html>
